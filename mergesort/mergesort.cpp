@@ -1,20 +1,63 @@
-// mergesort.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include <vector>
+using namespace std;
+int main() {
+	int n=1;
+	int length;
+	cin >> length;
 
-int main()
-{
-    std::cout << "Hello World!\n";
+	vector<double> a(length);
+	for (int i = 0;i < length;i++) {
+		cin >> a[i];
+	}
+
+	while (n < length) {
+		n *= 2;
+	}
+
+	int merge_size = 2;
+	int submerge_size;
+	double tem;
+	int temsize;
+	for (;merge_size <= n;merge_size *= 2) {
+		for (int index = 0;index < n;index += merge_size)
+			for (int pointer = 0;pointer < merge_size / 2;pointer++){
+				if (pointer+index < length&&index + merge_size - pointer - 1 < length && a[pointer+index] > a[index + merge_size - pointer - 1 ]) {
+				tem = a[pointer+index];
+				a[pointer+index] = a[index + merge_size - pointer - 1];
+				a[index + merge_size - pointer - 1] = tem;
+			}
+		}
+		cout << "m ";
+		for (int i = 0;i < length;i++) {
+			cout << a[i] << ' ';
+		}
+		cout << endl;
+		submerge_size = merge_size / 2;
+		for (;submerge_size > 1;submerge_size /= 2) {
+			temsize = submerge_size / 2;
+			for (int index = 0;index < n;index += submerge_size) {
+				for (int pointer = index;pointer < index + temsize;pointer++) {
+					if (pointer < length && pointer + temsize<length && a[pointer] > a[pointer + temsize]) {
+						tem = a[pointer];
+						a[pointer] = a[pointer + temsize];
+						a[pointer + temsize] = tem;
+					}
+				}
+			}
+			cout << "s ";
+			for (int i = 0;i < length;i++) {
+				cout << a[i] << ' ';
+			}
+			cout << endl;
+		}
+	}
+	for (int i = 0;i < length;i++) {
+		cout << a[i] << ' ';
+	}
+	return 0;
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+
+
